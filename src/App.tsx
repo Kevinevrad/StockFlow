@@ -1,64 +1,120 @@
 import "./App.css";
+import * as z from "zod";
+import { toast } from "sonner";
+
+// prettier-ignore
+import {Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,} from "./components/ui/card";
 import { Button } from "./components/ui/button";
-
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "./components/ui/card";
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldError,
+} from "./components/ui/field";
+import { Input } from "./components/ui/input";
+//
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import img from "./assets/log_in.svg";
 
 function App() {
+  const loginFormSchema = z.object({
+    email: z.string().email({ message: "Please enter a valid email address" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+  });
+
+  const loginForm = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  // ICI LE PRMIER PROBLEME
+  function onSubmit(data: z.infer<typeof loginFormSchema>) {
+    toast.promise(
+      () =>
+        new Promise((resolve) => {
+          setTimeout(() => resolve({ data: data }), 2000);
+        }),
+      {
+        loading: "Logging in...",
+        success: "Logged in successfully!",
+        error: "Failed to log in. Please try again.",
+      },
+    );
+
+    // toast("You submitted the following values:", {
+    //   description: (
+    //     <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
+    //       <code className="text-sm">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   ),
+    //   position: "bottom-right",
+    //   style: {
+    //     "--border-radius": "calc(var(--radius)  + 4px)",
+    //   } as React.CSSProperties,
+    // });
+  }
+
   return (
     <>
-      <section className="h-screen flex items-center justify-center">
-        <Card className="w-full max-w-sm">
+      <div className="h-screen flex items-center justify-center gap-4">
+        <Card className="w-full sm:max-w-md border-2 mx-10 ">
           <CardHeader className="my-3">
-            <div className="my-5 text-center "> SMART - FlOW</div>
-            <CardTitle>Login to your account</CardTitle>
+            <CardTitle>Login</CardTitle>
             <CardDescription>
-              Enter your email below to login to your account
+              Enter your email & password below to login to your account
             </CardDescription>
           </CardHeader>
           <CardContent className="my-3">
-            <form action="#">
-              <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFrom="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    required
-                  />
-                </div>
-
-                <div className="grid gap-2">
-                  <div className="flex items-center">
-                    <Label htmlFrom="password">Password</Label>
-                    <a
-                      href="#"
-                      className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </a>
-                  </div>
-                  <Input id="password" type="password" required />
-                </div>
-              </div>
+            <form onSubmit={loginForm.handleSubmit(onSubmit)}>
+              <FieldGroup>
+                {/* prettier-ignore */}
+                <Controller name="email" control={loginForm.control} render={({field, fieldState}) => (<Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="email">Email</FieldLabel>
+                  <Input {...field} name="email" placeholder="m@example.com" aria-invalid={fieldState.invalid} />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>)} />
+                {/* prettier-ignore */}
+                <Controller name="password" control={loginForm.control} render={({field, fieldState}) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                    <Input {...field} name="password" type="password" placeholder="••••••••" aria-invalid={fieldState.invalid} />
+                    {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                  </Field>
+                )} 
+                />
+              </FieldGroup>
             </form>
           </CardContent>
-
-          <CardFooter className="flex-col gap-2">
-            <Button className="w-full">Sign in</Button>
+          <CardFooter>
+            <Button
+              className="w-full"
+              variant="default"
+              size="lg"
+              type="submit"
+              onClick={loginForm.handleSubmit(onSubmit)}
+            >
+              Sign in
+            </Button>
           </CardFooter>
         </Card>
-      </section>
+
+        <img
+          src={img}
+          alt="Illustration"
+          className="hidden lg:block ml-8  w-1/3"
+        />
+      </div>
     </>
   );
 }

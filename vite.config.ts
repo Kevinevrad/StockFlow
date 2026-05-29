@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 import path from "path";
 import tailwindcss from "@tailwindcss/vite";
@@ -11,6 +12,7 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
+    tsconfigPaths(),
   ],
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
 });
