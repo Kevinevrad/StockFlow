@@ -14,5 +14,8 @@ export default defineConfig({
     tailwindcss(),
     tsconfigPaths(),
   ],
-  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  resolve: {
+    alias: { "@": path.resolve(__dirname, "./src") },
+    tsconfigPaths: true,
+  },
 });
