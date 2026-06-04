@@ -25,7 +25,7 @@ function Login() {
   const togglePassOublier = () => {
     setPassOublier(!passOublier);
     if (!passOublier) {
-      navigate("/get-new-pass");
+      navigate("/forget-password");
     } else {
       navigate("/login");
     }

@@ -1,9 +1,10 @@
-import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import {
-  Field,
-  FieldLabel,
-  FieldError,
-} from "../ui/field";
+  Controller,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form";
+import { Field, FieldLabel, FieldError } from "../ui/field";
 import { Input } from "../ui/input";
 
 interface FormFieldProps<T extends FieldValues> {
@@ -38,9 +39,7 @@ export function FormField<T extends FieldValues>({
             height={height}
             aria-invalid={fieldState.invalid}
           />
-          {fieldState.invalid && (
-            <FieldError errors={[fieldState.error]} />
-          )}
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>
       )}
     />
