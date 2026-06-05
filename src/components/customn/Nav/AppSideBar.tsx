@@ -15,8 +15,8 @@ import {
 } from "lucide-react";
 
 import { NavMain } from "@/components/customn/Nav/NavMain";
-// import { NavProjects } from "@/components/nav-projects";
-// import { NavUser } from "@/components/nav-user";
+import { NavProjects } from "@/components/customn/Nav/NavProjects";
+import { NavUser } from "@/components/customn/Nav/NavUser";
 // import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
@@ -26,6 +26,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { TeamSwitcher } from "./TeamSwitcher";
+import { Separator } from "@/components/ui/separator";
 
 // This is sample data.
 const data = {
@@ -164,10 +165,14 @@ export function AppSideBar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
+        <Separator className="my-2" />
         <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
+        <NavProjects projects={data.projects} />
       </SidebarContent>
-      <SidebarFooter>{/* <NavUser user={data.user} /> */}</SidebarFooter>
+      <SidebarFooter>
+        <Separator className="my-2" />
+        <NavUser user={data.user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
