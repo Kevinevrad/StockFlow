@@ -14,6 +14,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "../components/ui/tooltip";
+import CardStats from "../components/customn/Nav/SectionCard";
 
 export const Dashboard = () => {
   return (
@@ -44,10 +45,19 @@ export const Dashboard = () => {
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-              <div className="aspect-video rounded-xl bg-muted/50" />
-              <div className="aspect-video rounded-xl bg-muted/50" />
-              <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+              <div className="aspect-video rounded-xl bg-muted/50">
+                <CardStats />
+              </div>
+              <div className="aspect-video rounded-xl bg-muted/50">
+                <CardStats />
+              </div>
+              <div className="aspect-video rounded-xl bg-muted/50">
+                <CardStats />
+              </div>
+              <div className="aspect-video rounded-xl bg-muted/50">
+                <CardStats />
+              </div>
             </div>
             <div className="min-h-screen flex-1 rounded-xl bg-muted/50 md:min-h-min" />
           </div>
